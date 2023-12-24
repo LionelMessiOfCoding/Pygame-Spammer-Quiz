@@ -8,6 +8,7 @@ FPS = 60
 TURQUOISE = (50, 100, 100)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
+GREEN = (0, 255, 0)
 
 BAR_WIDTH = 20
 BAR_HEIGHT = 380
@@ -15,6 +16,7 @@ BAR_HEIGHT = 380
 BAR_BACKGROUND = pygame.Rect(20, 50, 30, 400)
 BAR = pygame.Rect(25, 60, BAR_WIDTH, BAR_HEIGHT)
 BAR_COVER = pygame.Rect(25, 60, BAR_WIDTH, BAR_HEIGHT)
+BAR_SAFETY_LINE = pygame.Rect(25, 280, BAR_WIDTH, 5)
 
 
 def draw_window():
@@ -22,11 +24,14 @@ def draw_window():
     pygame.draw.rect(WIN, BLACK, BAR_BACKGROUND)
     pygame.draw.rect(WIN, RED, BAR)
     pygame.draw.rect(WIN, BLACK, BAR_COVER)
+    pygame.draw.rect(WIN, GREEN, BAR_SAFETY_LINE)
     pygame.display.update()
 
 def resize_bar_cover():
-    if BAR_COVER.height >= 20:
-        BAR_COVER.height -= 20
+    if BAR_COVER.height >= 200:
+        BAR_COVER.height -= 25
+    elif BAR_COVER.height < 200 and BAR_COVER.height >= 15:
+        BAR_COVER.height -= 15
 
 def main():
     clock = pygame.time.Clock()
@@ -41,7 +46,7 @@ def main():
                 run = False
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LCTRL:
+                if event.key == pygame.K_LCTRL or event.key == pygame.K_RCTRL:
                     resize_bar_cover()
 
 
